@@ -1,10 +1,10 @@
 const {JSDOM} = require("jsdom");
-const cloudflareScraper = require('cloudflare-scraper');
+const axios = require('axios');
 
 const homeManga = async () =>{
     try{
-     let data = await cloudflareScraper.get("https://komikindo.id/")
-     let jdom = new JSDOM(data).window.document;
+     let data = await axios.get("https://komikindo.id/")
+     let jdom = new JSDOM(data.data).window.document;
      let data2 = jdom.querySelector(".postbody");
      let b = {
          populer: [],
@@ -41,8 +41,8 @@ const homeManga = async () =>{
  }
 
 const readManga = async(title) =>{
-    let data = await cloudflareScraper.get(`https://komikindo.id/${title}`);
-    let jdom = new JSDOM(data).window.document;
+    let data = await axios.get(`https://komikindo.id/${title}`);
+    let jdom = new JSDOM(data.data).window.document;
     let b = {
         allImg: [],
         nePr: []
@@ -61,8 +61,8 @@ const readManga = async(title) =>{
 }
 
 const searchManga = async (judul) =>{
-    let data = await cloudflareScraper.get(`https://komikindo.id/?s=${judul}`);
-    let jdom = new JSDOM(data).window.document;
+    let data = await axios.get(`https://komikindo.id/?s=${judul}`);
+    let jdom = new JSDOM(data.data).window.document;
     let b = {
         data: []
     }
@@ -82,8 +82,8 @@ const searchManga = async (judul) =>{
 const viewManga = async (judul) =>{
     try{
     let link = `https://komikindo.id/komik/${judul}`
-    let data = await cloudflareScraper.get(link)
-    let jdom = new JSDOM(data).window.document
+    let data = await axios.get(link)
+    let jdom = new JSDOM(data.data).window.document
     let data2 = jdom.querySelector(".postbody")
     let b = {
         info: [],
